@@ -4,30 +4,34 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Project Proposal</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <body>
-    <h1>Project Proposal- Jake Goodman</h1>
-    <h3>Project Description: </h3>
-    <p>The project I want to create is a podcasts web app where the user can browse, search, and listen to podcasts online. There are many of these out there (although many more for mobile compared to web), but this one will be different. My podcasts application will be focused around individual episodes and will offer functionality to save and share these episodes. For most podcasts, not all episodes are equal in quality and this will help people save the episodes they like best and share them with friends.</p>
-    <h3>Project Design: </h3>
-    <p>The technologies I will use are <a href="https://nodejs.org/en/">Node.js</a>, <a href="https://expressjs.com">Express</a>, and <a href="https://www.postgresql.org">PostgreSQL</a>. For queries I will use <a href="http://knexjs.org">Knex.js</a>, for the view engine I will use <a href="https://mozilla.github.io/nunjucks/">Nunjucks</a>, and for authentication I will use <a href="http://www.passportjs.org">Passport</a>. I will also be using <a href="https://sass-lang.com">Sass</a> for my CSS and <a href="https://gulpjs.com">Gulp.js</a> to handle my builds. Lastly and most importantly, I will be using the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a> to retrieve podcasts in JSON format. This will give me the podcast information along with the RSS feeds which I can then parse with a Node library like <a href="https://github.com/bobby-brennan/rss-parser">rss-parser</a>.</p>
-    <p>The project’s use cases (in order of importance) will be to:
-    <ul>
-        <li>Search podcasts by name</li>
-        <li>View list of individual episodes with the ability to save episodes to account and share with friends (will share RSS for that episode) </li>
-        <li>Browse podcasts (by name, rating, or genre which are all included in iTunes Search API)</li>
-        <li>View list of saved episodes and add additional info (like personal rating)  </li>
-    </ul>
-    <p>There may be additional use cases as the project develops.</p>
-    <p>My PostgreSQL database will be used to store user information including the episodes attached to each user (many-to-many). Everything else (most likely) will be retrieved through iTunes Search API.</p>
-    <h3>Project Schedule:</h3>
-    <p>Checkpoint 1- I will set up my project with all the technologies listed above along with the architecture for model, view, controller. I will build out basic views for each page that I want, but not necessarily with any functionality just yet. The user login system (with create an account, login, and profile pages) will be complete along with working sessions.</p>
-    <p>Checkpoint 2- I will work heavily on the search page and make sure I can successfully get and use all the data I need from the iTunes Search API. I will set up routes for clicking on a podcast and will work on the podcast page for displaying individual episodes. I will also begin to add functionality that allows for saving podcasts to the user’s account from this page.</p>
-    <p>Checkpoint 3- I will work on the browse page that will bring in data from iTunes Search API with options to sort by name, rating, and genre. I will work on the profile page to bring in saved episodes into a list and work on functionality to allow the user to rate each episode (and also sort by rating). I will make sure that all functionality from other checkpoints are fleshed out and that all use cases are met.</p>
-    <p>Final- The final will be everything from checkpoint 3 along with a coat of paint for design. I will also be sure to thoroughly test the web application for any bugs and give myself enough time to work on deployment of the app. I will then do any debugging in production and make sure it is ready to submit.</p>
-    <h3>Project Justification:</h3>
-    <p>Novelty: My project is different than existing applications for multiple reasons. There are not many web applications for podcasts as the bulk are for mobile, which would give people a new medium for discovering podcasts. Most podcast apps are centered around the podcast and the player. My app will focus on the individual episodes and a sharing element for these episodes. Being able to save, rate, and share favorite episodes allows for an enhanced podcasting experience.</p>
-    <p>Complexity: This app is plenty complex with all of the technologies I will be using and this project will allow me to gain more experience interacting with an API. I have been really wanting to dive deeper into Node.js and this is the perfect opportunity to do so. I have limited the scope of functionality to be feasible by the end of the semester, but think I could definitely build on this in the future if I wanted (for example, building a view for seeing top rated episodes from users).</p>
+    <section>
+            <div>
+                <h1>Project Proposal</h1>
+                <p>By Jake Goodman</p>
+                <h3>Project Description</h3>
+                <p>The project I want to create is a podcasts web app where the user can browse, search, and listen to podcasts online. There are many of these out there, but this one will be based around a social element where the user can save, rate, share, and comment on episodes. For most podcasts, not all episodes are equal in quality and this will help people find the best episodes.</p>
+                <h3>Project Design</h3>
+                <p>The technologies I will use are <a href="https://nodejs.org/en/">Node.js</a>, <a href="https://expressjs.com">Express</a>, and <a href="https://www.postgresql.org">PostgreSQL</a>. For queries I will use <a href="http://knexjs.org">Knex.js</a>, for the view engine I will use <a href="https://mozilla.github.io/nunjucks/">Nunjucks</a>, and for authentication I will use <a href="http://www.passportjs.org">Passport</a>. I will also be using <a href="https://sass-lang.com">Sass</a> for my CSS and <a href="https://gulpjs.com">Gulp.js</a> to handle my builds. Lastly and most importantly, I will be using the <a href="https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/">iTunes Search API</a> to retrieve podcasts in JSON format. This will give me the podcast information along with the RSS feeds which I can then parse with a Node library like <a href="https://github.com/bobby-brennan/rss-parser">rss-parser</a>.</p>
+                <p>The project’s use cases will be to:
+                <ul>
+                    <li>Search and browse podcasts by name, rating, or genre</li>
+                    <li>View list of individual episodes with the ability to save, rate, share, and comment on episodes</li>
+                    <li>View list of saved episodes, posted comments, and personal ratings on episodes</li>
+                </ul>
+                <p>There may be additional use cases as the project develops.</p>
+                <p>My PostgreSQL database will have the following tables: user, comment, user_episode (many-to-many). Everything else (most likely) will be retrieved through the iTunes Search API.</p>
+                <h3>Project Schedule</h3>
+                <p>Checkpoint 1: Technologies listed above are set up along with an established MVC architecture. The user login system is complete with sessions and views including create an account, login, and profile.</p>
+                <p>Checkpoint 2: The search view is complete and retrieves podcast data from the iTunes Search API. The podcast view for displaying all episodes within a podcast is complete with the ability to play, comment, rate, and save each episode.</p>
+                <p>Checkpoint 3: The browse page is complete which brings in data from the iTunes Search API with options to sort by name, rating, and genre. The profile page is complete which displays saved episodes with the ability to play, comment, and rate each episode directly from this page. Any revisions and additional functionality will be complete by this checkpoint.</p>
+                <p>Final: The final will be everything from checkpoint 3 along with a coat of paint for design. At this point, the web application has been successfully deployed to the server and thoroughly tested for bugs.</p>
+                <h3>Project Justification</h3>
+                <p>Novelty: My project is different than existing podcast applications because it focuses on a social element that is missing from other podcast apps. There are also not many web applications for podcasts as the bulk are for mobile, which would give people a new medium for discovering podcasts.</p>
+                <p>Complexity: This app is plenty complex with all of the technologies I will be using and this project will allow me to gain more experience interacting with an API. I have been really wanting to dive deeper into Node.js and this is the perfect opportunity to do so.</p>
+            </div>
+        </section>
 </body>
 </html>
