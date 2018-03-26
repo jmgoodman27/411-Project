@@ -5,10 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Home</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
-    <!-- <link href="https://fonts.googleapis.com/css?family=Merriweather:300,400,700|Source+Sans+Pro:300,400" rel="stylesheet"> -->
+    <!-- <link href="https://fonts.googleapis.com/css?family=Merriweather:300,400,700|Source+Sans+Pro:300 400" rel="stylesheet"> -->
 </head>
 <body>
+    <section>
+        <nav class="flex inline justify-end">
+            <a href="/">Home</a>
+            <a href="/browse">Browse</a>
+            <a href="/search">Search</a>
+            {% if user %}
+                <a href="/account">Account</a>
+            {% else %}
+                <a href="/login">Log In</a>
+            {% endif %}
+        </nav>
+    </section>
     {% block main %}
+    This is the default content
+    {% endblock %}
+    {% block scripts %}
     {% endblock %}
 </body>
 </html>

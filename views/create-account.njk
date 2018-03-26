@@ -1,0 +1,36 @@
+{% extends "./layouts/base.njk" %}
+{% block main %}
+<section>
+    <div class="marg-b-md">
+        <h2>Create an Account</h2>
+        <p>With an account, you can save, rate, comment, and share podcast episodes.</p>
+    </div>
+    <div>
+        <div class="form">
+            <form id="create_account_form" action="/create-account" autocomplete="off" method="post">
+                <div>
+                    <input type="text" id="username" placeholder="Username" name="username" value="{{ data.username }}" />
+                </div>
+                <div>
+                    <input type="password" id="password" placeholder="Password" name="password" value="{{ data.password }}"/>
+                </div>
+                <div>
+                    <input type="text" id="full_name" name="full_name" placeholder="Full Name" value="{{ data.full_name }}"/>
+                </div>
+                <input type="submit" class="Btn" value="Submit"></input>
+            </form>
+             {# Display errors from server validation #}
+             {% if errors %}
+                <ul class="marg-t-sm">
+                {% for error in errors %}
+                <li>{{error.msg}}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            {% if error %}
+                <p>There was an error with creating your account, please try again.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

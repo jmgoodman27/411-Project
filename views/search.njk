@@ -1,0 +1,35 @@
+{% extends "./layouts/base.njk" %}
+
+{% block main %}
+<section>
+    <div>
+        <h1>Search for Podcasts</h1>
+           <form id="search_podcast_form" action="/search" autocomplete="off" method="post">
+                <div>
+                    <input type="text" id="username" placeholder="Search" name="terms" value="{{ search_term }}" />
+                </div>
+                <input type="submit" class="Btn" value="Search"></input>
+            </form>
+    </div>
+</section>
+{% if results %}
+<section>
+    <div>
+        <p>Showing {{ result_count }} results</p>
+    </div>
+    <div>
+        {% for result in results %}
+        <div class="flex nowrap align-start">
+            <div class="align-self-center">
+                <img class="img-md" src="{{ result.artworkUrl100 }}" />
+            </div>
+            <div>
+                <p>Podcast: {{ result.collectionName }}</p>
+                <p>Artist: {{ result.artistName }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+</section>
+{% endblock %}

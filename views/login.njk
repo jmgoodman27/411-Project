@@ -1,0 +1,35 @@
+{% extends "./layouts/base.njk" %}
+{% block main %}
+<section class="_pad-lr-xl">
+    {# Display flash messages #}
+    {% if success | length > 0 %}
+        <div class="pad-sm color-success marg-b-sm b-color-grey">
+            <p>{{ success }}</p>
+        </div>
+    {% endif %}
+    {% if error | length > 0 %}
+        <div class="pad-sm color-error marg-b-sm b-color-grey">
+            <p>{{ error }}</p>
+        </div>
+    {% endif %}
+    <div class="form">
+        <h2 class="marg-b-sm">Log In</h2>
+        <form id="login_form" method="post" action="/login" autocomplete="off">
+            <div>
+                <label for="username">Username: </label>
+                <input type="text" id="username" name="username" />
+            </div>
+            <div>
+                <label for="password">Password: </label>
+                <input type="password" id="password" name="password" />
+            </div>
+            <div class="marg-t-sm">
+                <input type="submit" class="Btn" value="Submit"></input>
+            </div>
+        </form>
+    </div>
+    <div class="pad-t-md">
+        <p class="color-main"><a href="/create-account">Or create an account.</p>
+    </div>
+</section>
+{% endblock %}

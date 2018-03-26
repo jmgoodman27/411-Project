@@ -1,0 +1,364 @@
+/*** Align ***/
+
+.center {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.left {
+    text-align: left;
+}
+.right {
+    text-align: right;
+}
+
+/*** Flex ***/
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+.flex > div {
+    margin-right: percentage($margin-flex);
+}
+// Let flex define widths based on content
+.flex-auto > * {
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+    @include mobile() {
+        flex-basis: auto;
+    }
+}
+// Define number of items in container manually
+@for $i from 2 through 5 {
+    .items-#{$i} > div {
+        flex-basis: percentage((1 / $i) - $margin-flex);
+        flex-grow: 1;
+        flex-shrink: 1;
+        @include mobile() {
+            flex-basis: auto;
+        }
+    }
+}
+// Define width on flex elements manually
+@for $i from 2 through 10 {
+    .basis-#{$i} {
+        flex-basis: (($i * 10) - ($margin-flex * 100)) * 1%;
+        flex-grow: 1;
+        flex-shrink: 1;
+        @include mobile() {
+            flex-basis: auto;
+        }
+    }
+}
+// Justify content
+.justify-around {
+    justify-content: space-around;
+}
+.justify-between {
+    justify-content: space-between;
+}
+.justify-evenly {
+    justify-content: space-evenly;
+}
+.justify-center {
+    justify-content: center;
+}
+.justify-start {
+    justify-content: flex-start;
+}
+.justify-end {
+    justify-content: flex-end;
+}
+// Align
+.align-start {
+    align-items: flex-start;
+}
+.align-end {
+    align-items: flex-end;
+}
+.align-stretch {
+    align-items: stretch;
+}
+.align-baseline {
+    align-items: baseline;
+}
+.align-center {
+    align-items: center;
+}
+
+// Other
+.nowrap {
+    flex-wrap: nowrap;
+}
+
+/*** Floats ***/
+
+.float-none {
+    float: none !important;
+}
+.float-left {
+    float: left;
+}
+.float-right {
+    float: right;
+}
+
+/*** Displays ***/
+
+.overflow {
+    overflow: hidden;
+}
+.hidden {
+    display: none;
+}
+.inline > * {
+    display: inline-block;
+    padding-right: 20px;
+}
+.block {
+    display: block;
+}
+.inline-block {
+    display: inline-block;
+}
+
+/*** Fonts/Colors ***/
+
+.font-header {
+    font-family: $fontHeader;
+}
+.font-body {
+    font-family: $fontBody;
+}
+.color-main {
+    color: $colorMain;
+}
+.color-success {
+    color: $colorSuccess;
+}
+.color-error {
+    color: $colorError;
+}
+.color-white {
+    color: #fff;
+    &:hover {
+        color: #fff;
+    }
+}
+.color-black {
+    color: #000;
+    &:hover {
+        color: #000;
+    }
+}
+.color-link {
+    color: $colorLink;
+}
+.b-color-main {
+    background-color: $colorMain;
+}
+.b-color-white {
+    background-color: #fff;
+}
+.b-color-black {
+    background-color: #000;
+}
+.b-color-grey {
+    background-color: $colorGrey;
+}
+
+/*** Font Size ***/
+
+.fs-xxxl {
+    font-size: 3rem;
+}
+.fs-xxl {
+    font-size: 2.7rem;
+}
+.fs-xl {
+    font-size: 2.3rem;
+}
+.fs-lg {
+    font-size: 1.5rem;
+}
+.fs-md {
+    font-size: 1.35rem;
+}
+.fs-sm {
+    font-size: 1.2rem;
+}
+
+/*** Style ***/
+
+.light {
+    font-weight: 300;
+}
+.bold {
+    font-weight: 600;
+}
+.italic {
+    font-style: italic;
+}
+.uppercase {
+    text-transform: uppercase;
+}
+.capitalize {
+    text-transform: capitalize;
+}
+.underline {
+    text-decoration: underline;
+}
+
+/*** Padding and Margins ***/
+
+/** Example:
+.marg-l-sm, .marg-r-lg, .marg-lr-xl, .marg-none
+.pad-tb-md
+**/
+$start: 20px;
+$type: (
+    margin: marg,
+    padding: pad
+);
+$directions: (
+    left: l,
+    right: r,
+    bottom: b,
+    top: t
+);
+$sizes: (
+    xl: $start * 4,
+    lg: $start * 3,
+    md: $start * 2,
+    sm: $start,
+    xs: $start - 10,
+    none: 0
+);
+// Create padding and margin modifier classes with Sass loops
+@each $type, $type-abr in $type {
+    // Left, right, bottom, top
+    @each $dir, $dir-abr in $directions {
+        @each $size, $val in $sizes {
+            // Ex: marg-t-sm
+            .#{$type-abr}-#{$dir-abr}-#{$size} {
+                // Ex: margin-top: 20px;
+                #{$type}-#{$dir}: $val;
+            }
+        }
+    }
+    // Top and bottom
+    @each $size, $val in $sizes {
+        // Ex: marg-tb-sm
+        .#{$type-abr}-tb-#{$size} {
+            #{$type}-top: $val;
+            #{$type}-bottom: $val;
+        }
+    }
+    // Left and right
+    @each $size, $val in $sizes {
+        // Ex: marg-lr-sm
+        .#{$type-abr}-lr-#{$size} {
+            #{$type}-left: $val;
+            #{$type}-right: $val;
+        }
+    }
+    // All directions
+    @each $size, $val in $sizes {
+        // Ex: marg-sm
+        .#{$type-abr}-#{$size} {
+            #{$type}: $val;
+        }
+    }
+}
+//Images
+.center-img img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+%img {
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: auto;
+}
+.img-sm {
+    min-height: 50px;
+    @extend %img;
+}
+.img-md {
+    min-height: 80px;
+    @extend %img;
+}
+.img-lg {
+    min-height: 110px;
+    @extend %img;
+}
+.img-xl {
+    min-height: 140px;
+    @extend %img;
+}
+.img-xxl {
+    min-height: 170px;
+    @extend %img;
+}
+
+// Lists
+.list-bullets li {
+    list-style: disc;
+}
+.list-style-none {
+    list-style: none;
+    margin: 0;
+}
+.list-bullets {
+    padding-left: 20px;
+}
+
+// Code
+.code-lg {
+    pre {
+        padding: 30px 25px;
+    }
+}
+
+// Min-height
+.min-height-sm {
+    min-height: 300px;
+}
+.min-height-md {
+    min-height: 500px;
+}
+.min-height-lg {
+    min-height: 700px;
+}
+
+// Other
+.selected {
+    font-weight: bold;
+}
+.line-height {
+    line-height: 1.25;
+}
+.cursor {
+    cursor: pointer;
+}
+
+// Media Queries
+@include mobile() {
+    .m-right {
+        text-align: right;
+    }
+    .m-center {
+        text-align: center;
+    }
+    .m-left {
+        text-align: left;
+        margin: 0;
+    }
+}

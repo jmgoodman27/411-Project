@@ -1,0 +1,16 @@
+{% extends "./layouts/base.njk" %}
+
+{% block main %}
+<section>
+    <div class="flex align-center">
+        <h1>Account</h2>
+        <p><a class="pad-l-sm" href="/logout">(Log Out)</a></p>
+    </div>
+    <div>
+        <p>Name: {{ user.full_name }}</p>
+    </div>
+    <div>
+        <h4>Saved Podcasts</h4>
+    </div>
+</section>
+{% endblock %}
