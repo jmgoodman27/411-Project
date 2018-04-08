@@ -9,8 +9,22 @@
     <div>
         <p>Name: {{ user.full_name }}</p>
     </div>
-    <div>
-        <h4>Saved Podcasts</h4>
+    <div class="pad-t-md">
+        <h2 class="fs-lg pad-b-sm">Favorites</h2>
+        {% for podcast in podcasts %}
+        <div class="Card">
+            <p><a class="color-link" href="/podcast/{{ podcast.info.podcast_id }}">{{ podcast.info.podcast_name }}</a></p>
+            {% for episode in podcast.episodes %}
+            <p>
+                {% if episode.link %}
+                    – <a class="color-link" href="{{episode.link}}">{{ episode.name }}</a>
+                {% else %}
+                – {{ episode.name }}
+                {% endif %}
+            </p>
+            {% endfor %}
+        </div>
+        {% endfor %}
     </div>
 </section>
 {% endblock %}

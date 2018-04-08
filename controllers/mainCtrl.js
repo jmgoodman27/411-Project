@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var users = require('../models/userModel');
 const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
 var passport = require('passport');
+
+const users = require('../models/userModel');
 
 router.get('/', function (req, res) {
     res.render('home');
@@ -24,7 +25,23 @@ router.get('/logout', function (req, res) {
 });
 
 router.get('/account', function (req, res) {
-    res.render('account');
+    let podcasts = [];
+    var promises = [];
+    users.getPodcasts(req.user.id).then(values => {
+        values.forEach((val, index) => {
+            let promise = users.getEpisodes(req.user.id, val.podcast_id).then(episodes => {
+                const podcast = {
+                    info: val, 
+                    episodes: episodes
+                };
+                podcasts.push(podcast);
+            });
+            promises.push(promise);
+         });
+         Promise.all(promises).then(() => {
+            res.render('account', {podcasts: podcasts});
+        });
+    });
 });
 
 router.get('/create-account', function (req, res) {

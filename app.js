@@ -15,7 +15,7 @@ nunjucks.configure('views', {
 app.set('view engine', 'njk');
 
 // Serve static assets when requested
-app.use(express.static('./public/'));
+app.use(express.static('public'));
 
 // Passport and session
 var passport = require('passport');
