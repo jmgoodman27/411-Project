@@ -13,7 +13,9 @@ router.get('/favorites', function (req, res) {
                     info: val, 
                     episodes: episodes
                 };
-                podcasts.push(podcast);
+                if (episodes.length > 0) {
+                    podcasts.push(podcast);
+                }
             });
             promises.push(promise);
          });
