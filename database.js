@@ -1,9 +1,6 @@
 var config = require('./knexfile.js');
-let env = 'development';
-if (process.env.NODE_ENV == "production") {
-    let env = 'production';
-}
-var knex = require('knex')(config[env]);
+var environment = process.env.NODE_ENV || 'development';
+var knex = require('knex')(config[environment]);
 
 module.exports = knex;
 knex.migrate.latest([config]);
