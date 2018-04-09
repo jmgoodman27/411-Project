@@ -10,11 +10,15 @@ router.get('/', function (req, res) {
     res.render('home');
 });
 
+router.get('/account', function (req, res) {
+    res.render('account', {user: req.user});
+});
+
 router.get('/login', function (req, res) {
     res.render('login', { success: req.flash('success'), error: req.flash('error') });
 });
 router.post('/login', passport.authenticate('local', {
-    successRedirect: '/account',
+    successRedirect: '/',
     failureRedirect: '/login',
     failureFlash: true
 }));
@@ -22,26 +26,6 @@ router.post('/login', passport.authenticate('local', {
 router.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/login');
-});
-
-router.get('/account', function (req, res) {
-    let podcasts = [];
-    var promises = [];
-    users.getPodcasts(req.user.id).then(values => {
-        values.forEach((val, index) => {
-            let promise = users.getEpisodes(req.user.id, val.podcast_id).then(episodes => {
-                const podcast = {
-                    info: val, 
-                    episodes: episodes
-                };
-                podcasts.push(podcast);
-            });
-            promises.push(promise);
-         });
-         Promise.all(promises).then(() => {
-            res.render('account', {podcasts: podcasts});
-        });
-    });
 });
 
 router.get('/create-account', function (req, res) {
@@ -55,15 +39,14 @@ router.post('/create-account', [
             }
         })
     }),
-    check('password', 'Passwords must be at least 5 characters long').isLength({ min: 5 }).exists(),
-    check('full_name', 'Full name is required').isLength({ min: 1 })],
+    check('password', 'Passwords must be at least 5 characters long').isLength({ min: 5 }).exists()],
     (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             res.render('create-account', { data: req.body, errors: errors.array() });
         } else {
             const user = matchedData(req);
-            users.addUser(user.username, user.password, user.full_name).then(() => {
+            users.addUser(user.username, user.password).then(() => {
                 req.flash('success', 'You have successfully created an account!');
                 res.redirect('/login');
             }).catch((err) => {

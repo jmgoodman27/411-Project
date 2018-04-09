@@ -61,31 +61,6 @@ router.get("/podcast/:id", function(req, res) {
     });
 });
 
-router.post("/favorite-episode", function(req, res) {
-    if(req.user) {
-        users.savePodcast(req.user.id, req.body.podcast_id, req.body.podcast_name);
-        users.getEpisode(req.user.id, req.body.name).then(result => {
-            if(!(result.length > 0)) {
-                users.saveEpisode(req.user.id, req.body.name, req.body.link, req.body.description, req.body.podcast_id).then(result => {
-                    if(result) {
-                        res.sendStatus(200);
-                    } else {
-                        res.sendStatus(400);
-                    }
-                });
-            } else {
-                users.deleteEpisode(req.user.id, req.body.name).then(result => {
-                    if(result) {
-                        res.sendStatus(200);
-                    } else {
-                        res.sendStatus(400);
-                    }
-                });
-            }
-        });
-    }
-});
-
 router.get("/browse", function(req, res) {
     res.render("browse");
 });

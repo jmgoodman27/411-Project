@@ -1,0 +1,70 @@
+{% extends "./layouts/base.njk" %} 
+{% block main %}
+<section>
+    <div class="pad-lr-md">
+        <h1 class="fs-lg marg-b-md">See What Friends are Listening To</h1>
+    </div>
+    <div class="flex">
+        <div class="flex align-center basis-6">
+            <div class="basis-8">
+                <form id="friends_form" action="/friends" autocomplete="off" method="post">
+                    <div class="flex">
+                        <div class="basis-6">
+                            <input required type="text" id="username" placeholder="Find friend by username" name="username" />
+                        </div>
+                        <div class="marg-t-sm">
+                            <input type="submit" class="Btn" value="Search"></input>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div>
+            <p class="pad-r-sm">Friends list: </p>
+            <ul class="list-style-none">
+                {% if friends.length > 0 %} 
+                    {% for friend in friends %}
+                    <li class="pad-b-sm">
+                        <a class="color-link" href="/friends/{{friend.username}}">{{ friend.username }}</a>
+                        <a class="pad-l-sm" href="/delete-friend/{{friend.id}}">x</a>
+                    </li>
+                    {% endfor %} 
+                {% else %}
+                    <p>You have no friends.</p>
+                {% endif %}
+        </div>
+    </div>
+    {% if result == true %}
+    <div>
+        {% if podcasts.length > 0 %}
+            <p>Podcast episodes favorited by
+                <span class="bold">{{search_term}}</span>
+                <a href="/save-friend/{{user.id}}">(save as friend)</a>
+            </p>
+            {% for podcast in podcasts %}
+            <div class="Card">
+                <p>
+                    <a class="color-link bold" href="/podcast/{{ podcast.info.podcast_id }}">{{ podcast.info.podcast_name }}</a>
+                </p>
+                {% for episode in podcast.episodes %}
+                <p>
+                    {% if episode.link %} –
+                    <a class="color-link" href="{{episode.link}}">{{ episode.name }}</a>
+                    {% else %} – {{ episode.name }} {% endif %}
+                </p>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No favorited podcast episodes from {{search_term}}
+                <a href="/save-friend/{{user.id}}">(save as friend)</a>
+            </p>
+        {% endif %} 
+    </div>
+    {% elif result == false %}
+    <div>
+        <p>{{ search_term | capitalize }} does not exist.</p>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

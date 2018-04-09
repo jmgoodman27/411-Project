@@ -1,30 +1,12 @@
 {% extends "./layouts/base.njk" %}
-
 {% block main %}
-<section>
-    <div class="flex align-center">
-        <h1>Account</h2>
+<section class="pad-lr-xl">
+    <div class="flex">
+        <h2>Your Account</h2>
         <p><a class="pad-l-sm" href="/logout">(Log Out)</a></p>
     </div>
     <div>
-        <p>Name: {{ user.full_name }}</p>
-    </div>
-    <div class="pad-t-md">
-        <h2 class="fs-lg pad-b-sm">Favorites</h2>
-        {% for podcast in podcasts %}
-        <div class="Card">
-            <p><a class="color-link" href="/podcast/{{ podcast.info.podcast_id }}">{{ podcast.info.podcast_name }}</a></p>
-            {% for episode in podcast.episodes %}
-            <p>
-                {% if episode.link %}
-                    – <a class="color-link" href="{{episode.link}}">{{ episode.name }}</a>
-                {% else %}
-                – {{ episode.name }}
-                {% endif %}
-            </p>
-            {% endfor %}
-        </div>
-        {% endfor %}
+        <p>Username: {{user.username}}</p>
     </div>
 </section>
 {% endblock %}

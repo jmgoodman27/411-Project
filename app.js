@@ -37,8 +37,10 @@ app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bodies
 
 // Set routes
-app.use('/', require('./controllers/mainCtrl'));
+app.use('/', require('./controllers/accountCtrl'));
 app.use('/', require('./controllers/podcastCtrl'));
+app.use('/', require('./controllers/favoritesCtrl'));
+app.use('/', require('./controllers/friendsCtrl'));
 
 // Handle errors
 app.use(function (err, req, res, next) {

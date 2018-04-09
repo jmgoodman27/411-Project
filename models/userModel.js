@@ -12,10 +12,37 @@ module.exports.getUser = function (username) {
         });
 };
 
+
 module.exports.getPodcasts = function (user_id) {
     return db.select('podcast_id', 'podcast_name')
     .from('user_podcast')
     .where('user_id', user_id)
+    .then(function (result) {
+        return result;
+    }).catch(function (err) {
+        return err;
+    });
+};
+
+
+module.exports.checkFriend = function (user_id, friend_id) {
+    return db.select('*')
+    .from('user_user')
+    .where('user_user.user_id', user_id)
+    .andWhere('user_user.friend_id', friend_id)
+    .first()
+    .then(function (result) {
+        return result;
+    }).catch(function (err) {
+        return err;
+    });
+};
+
+module.exports.getFriends = function (user_id) {
+    return db.select('user.username', 'user.id')
+    .from('user_user')
+    .leftJoin('user', 'user.id', 'user_user.friend_id')
+    .where('user_user.user_id', user_id)
     .then(function (result) {
         return result;
     }).catch(function (err) {
@@ -51,8 +78,7 @@ module.exports.addUser = function (username, password, full_name) {
     return db('user')
     .insert({ 
         username: username, 
-        password: password, 
-        full_name: full_name
+        password: password
     }).then(function (result) {
         return result;
     }).catch(function (err) {
@@ -88,6 +114,29 @@ module.exports.saveEpisode = function (user_id, name, link, description, podcast
     });
 };
 
+module.exports.saveFriend = function (user_id, friend_id) {
+    return db('user_user')
+    .insert({ 
+        user_id: user_id, 
+        friend_id: friend_id
+    }).then(function (result) {
+        return result;
+    }).catch(function (err) {
+        return err;
+    });
+};
+
+module.exports.deleteFriend = function (user_id, friend_id) {
+    return db('user_user')
+    .where('user_id', user_id)
+    .andWhere('friend_id', friend_id)
+    .del()
+    .then(function (result) {
+        return result;
+    }).catch(function (err) {
+        return err;
+    });
+};
 
 module.exports.deleteEpisode = function (user_id, name) {
     return db('user_episode')

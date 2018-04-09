@@ -1,0 +1,29 @@
+{% extends "./layouts/base.njk" %}
+
+{% block main %}
+<section>
+    <div class="flex align-center">
+        <h1>Favorites</h2>
+    </div>
+    <div class="pad-t-md">
+    {% if podcasts.length > 0 %}
+        {% for podcast in podcasts %}
+        <div class="Card">
+            <p><a class="color-link bold" href="/podcast/{{ podcast.info.podcast_id }}">{{ podcast.info.podcast_name }}</a></p>
+            {% for episode in podcast.episodes %}
+            <p>
+                {% if episode.link %}
+                    – <a class="color-link" href="{{episode.link}}">{{ episode.name }}</a>
+                {% else %}
+                – {{ episode.name }}
+                {% endif %}
+            </p>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    {% else %}
+    <p>You have not favorited any podcast episodes.</p>
+    {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -29,7 +29,7 @@
             <form class="pad-l-md">
                 <input type="text" class="hidden" id="name" name="name" value="{{item.title}}" />
                 <input type="text" class="hidden" id="link" name="link" value="{{item.link}}" />
-                <input type="text" class="hidden" id="description" name="description" value="{{item.contentSnippet | truncate(300)}}" />
+                <input type="text" class="hidden" id="description" name="description" value="{{item.contentSnippet | truncate(250)}}" />
                 <input type="text" class="hidden" id="podcast_id" name="podcast_id" value="{{result.collectionId}}" />
                 <input type="text" class="hidden" id="podcast_name" name="podcast_name" value="{{result.collectionName}}" />
                 <button type="submit" data-icon="{% if filled == true %}filled{% else %}unfilled{% endif %}" class="favorite IconButton"><i class="material-icons">{% if filled == true %}star{% else %}star_border{% endif %}</i></button>
