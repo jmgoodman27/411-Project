@@ -1,14 +1,18 @@
 {% extends "./layouts/base.njk" %}
 
 {% block main %}
-<section>
+<section class="b-color-main">
     <div>
-        <h1>Search for Podcasts</h1>
+        <h1 class="color-white">Search for Podcasts</h1>
            <form id="search_podcast_form" action="/search" autocomplete="off" method="post">
-                <div>
+           <div class="flex align-center">
+                <div class="HomeSearch--left">
                     <input type="text" id="username" placeholder="Search" name="terms" value="{{ search_term }}" />
                 </div>
-                <input type="submit" class="Btn" value="Search"></input>
+                <div>
+                    <input type="submit" class="BtnWhite bold" value="Search"></input>
+                </div>
+            </div>
             </form>
     </div>
 </section>
@@ -19,13 +23,13 @@
     </div>
     <div>
         {% for result in results %}
-        <div class="flex nowrap align-start">
+        <div class="flex Card nowrap align-start">
             <div class="align-self-center">
                 <img class="img-md" src="{{ result.artworkUrl100 }}" />
             </div>
             <div>
-                <p><a class="color-link" href="/podcast/{{ result.collectionId }}">Podcast: {{ result.collectionName }}</a></p>
-                <p>Artist: {{ result.artistName }}</p>
+                <p><a class="color-link bold" href="/podcast/{{ result.collectionId }}">{{ result.collectionName }}</a></p>
+                <p>{{ result.artistName }}</p>
             </div>
         </div>
         {% endfor %}

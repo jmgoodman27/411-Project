@@ -3,6 +3,7 @@ var router = express.Router();
 var request = require("request");
 
 const users = require('../models/userModel');
+const episodes = require('../models/episodeModel');
 
 
 router.get('/friends', function (req, res) {
@@ -21,27 +22,13 @@ get_friends = function (req, res) {
     }
     users.getUser(user_name).then(result => {
         if(result) {
-            let podcasts = [];
-            var promises = [];
-            users.getPodcasts(result.id).then(values => {
-                values.forEach((val, index) => {
-                    let promise = users.getEpisodes(result.id, val.podcast_id).then(episodes => {
-                        const podcast = {
-                            info: val, 
-                            episodes: episodes
-                        };
-                        podcasts.push(podcast);
-                    });
-                    promises.push(promise);
-                });
-                Promise.all(promises).then(() => {
-                    res.render('friends', {
-                        friends: req.session.friends,
-                        user: result,
-                        podcasts: podcasts,
-                        search_term: user_name,
-                        result: true,
-                    });
+            episodes.getFavorites(result.id).then((episodes) => {
+                res.render('friends', {
+                    friends: req.session.friends,
+                    user: result,
+                    episodes: episodes,
+                    search_term: user_name,
+                    result: true,
                 });
             });
         } else {

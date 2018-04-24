@@ -6,6 +6,7 @@ let Parser = require("rss-parser");
 let parser = new Parser();
 
 const users = require('../models/userModel');
+const episodes = require('../models/episodeModel');
 
 router.get("/search", function(req, res) {
     res.render("search");
@@ -33,11 +34,11 @@ router.get("/podcast/:id", function(req, res) {
     request("https://itunes.apple.com/lookup?id=" + req.params.id, 
     function(error, response,body) {
             if (req.user) {
-                let episodes = users.getEpisodes(req.user.id, req.params.id);
+                let favorites = episodes.getFavorites(req.user.id);
                 let feed = parser.parseURL(
                     JSON.parse(body).results[0].feedUrl
                 );
-                Promise.all([episodes, feed]).then(result => {
+                Promise.all([favorites, feed]).then(result => {
                     res.render("podcast", {
                         result: JSON.parse(body).results[0],
                         feed: result[1].items,
@@ -62,7 +63,17 @@ router.get("/podcast/:id", function(req, res) {
 });
 
 router.get("/browse", function(req, res) {
-    res.render("browse");
+    request(
+        "https://itunes.apple.com/search?term=podcast&limit=100",
+        function(error, response, body) {
+            // console.log("error:", error);
+            // console.log("statusCode:", response && response.statusCode);
+            // console.log("body:", JSON.parse(body));
+            res.render("browse", {
+                podcasts: JSON.parse(body).results
+            });
+        }
+    );
 });
 
 module.exports = router;

@@ -132,6 +132,9 @@
 .font-body {
     font-family: $fontBody;
 }
+.color-light {
+    color:$colorLight;
+}
 .color-main {
     color: $colorMain;
 }
@@ -155,6 +158,9 @@
 }
 .color-link {
     color: $colorLink;
+}
+.color-delete {
+    color: red;
 }
 .b-color-main {
     background-color: $colorMain;
@@ -288,15 +294,15 @@ $sizes: (
     width: auto;
 }
 .img-sm {
-    min-height: 50px;
+    height: 50px;
     @extend %img;
 }
 .img-md {
-    min-height: 80px;
+    height: 80px;
     @extend %img;
 }
 .img-lg {
-    min-height: 110px;
+    height: 110px;
     @extend %img;
 }
 .img-xl {
@@ -348,6 +354,13 @@ $sizes: (
 .cursor {
     cursor: pointer;
 }
+.select-width-1 {
+    width:70px;
+}
+.text-shadow {
+    text-shadow: 2px 2px #000;
+}
+
 
 // Media Queries
 @include mobile() {

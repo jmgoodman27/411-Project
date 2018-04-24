@@ -3,10 +3,11 @@ $maxSiteWidth: 1500px;
 $siteWidth: 75%;
 
 // Breakpoint
-$half: $siteWidth / 2;
+$half: $maxSiteWidth / 2;
 
 // Colors
-$colorMain: #4A8BF2;
+$colorMain: #FFA518;
+$colorLight: #FDF5CC;
 $colorSuccess: #4BB543;
 $colorError: #cc0000;
 $divideLine: #d0d4d9;
@@ -14,7 +15,7 @@ $colorFooter: #fff;
 $colorNav:#000;
 $colorWhite:#fff;
 $colorGrey:#F7F7F7;
-$colorLink: $colorMain;
+$colorLink:$colorMain;
 
 // Fonts
 $fontHeader: 'Roboto Slab', Trebuchet, Verdana, Helvetica, Arial, sans-serif;

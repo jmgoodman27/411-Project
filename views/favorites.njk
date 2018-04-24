@@ -6,19 +6,77 @@
         <h1>Favorites</h2>
     </div>
     <div class="pad-t-md">
-    {% if podcasts.length > 0 %}
-        {% for podcast in podcasts %}
+    {% if episodes.length > 0 %}
+        {% for episode in episodes %}
         <div class="Card">
-            <p><a class="color-link bold" href="/podcast/{{ podcast.info.podcast_id }}">{{ podcast.info.podcast_name }}</a></p>
-            {% for episode in podcast.episodes %}
-            <p>
+            <p><a class="color-link bold" href="/podcast/{{ episode.podcast_id }}">{{ episode.podcast_name }}</a>: 
                 {% if episode.link %}
-                    – <a class="color-link" href="{{episode.link}}">{{ episode.name }}</a>
+                <a class="color-link" href="{{episode.link}}">{{ episode.name }}</a>
                 {% else %}
-                – {{ episode.name }}
+                {{ episode.name }}
+                {% endif %}<span class="pad-l-sm underline color-delete"><a href="/remove-favorite/{{episode.id}}">remove</a></span></p>
+                {% if episode.rating %}
+                    Your Rating: {{ episode.rating}} / 5 <span class="pad-l-sm underline color-link"><a class="cursor" onclick="Ratings({{episode.id}})">edit</a></span>
+                {% else %}
+                 <span class="underline"><a class="cursor" onclick="Ratings({{episode.id}})">add rating</a></span>
                 {% endif %}
-            </p>
-            {% endfor %}
+                <p>Comments <span class="pad-l-sm underline color-link"><a class="cursor" onclick="Comments({{episode.id}})">add comment</a></span></p>
+                {% set isNull = false %}
+                {% if episode.comments | length > 0 %}
+                    {% if episode.comments | length == 1 %}
+                        {% if episode.comments[0].comment == null %}
+                            {% set isNull = true %}
+                        {% endif %}
+                    {% endif %}
+                    {% if isNull == false %}
+                        {% for comment in episode.comments %}
+                            <p>- {{comment.comment}} <span class="pad-l-sm underline color-link"><a class="cursor" onclick="EditComment({{comment.id}})">edit</a></span></p>
+                            <div id="edit_comment_{{comment.id}}" class="hidden">
+                            <h3 class="marg-b-sm">Edit comment</h3>
+                            <form id="editCommentForm" action="/edit-comment/{{comment.id}}" autocomplete="off" method="post">
+                                <div>
+                                    <textarea id="comment" name="comment" rows="4" cols="50">{{comment.comment}}</textarea>
+                                </div>
+                                <div class="marg-t-md">
+                                    <button class="Btn--danger" onclick="DeleteComment(event, {{ comment.id }})">Delete</button>
+                                    <input type="submit" class="Btn marg-l-sm" value="Save"></input>
+                                </div>
+                            </form>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% else %}
+                <p><span class="underline"><a class="cursor" onclick="Comments({{episode.id}})">add comment</a></span></p>
+                {% endif %}
+            <div id="comments_content_{{episode.id}}" class="hidden">
+                <h3 class="marg-b-sm">Add Comment</h3>
+                <form id="addCommentForm" action="/add-comment/{{episode.id}}" autocomplete="off" method="post">
+                    <div>
+                        <textarea id="comment" placeholder="Add comment" name="comment" rows="4" cols="50"></textarea>
+                    </div>
+                    <div class="marg-t-md">
+                        <input required type="submit" class="Btn marg-l-sm" value="Save"></input>
+                    </div>
+                </form>
+            </div>
+            <div id="ratings_content_{{episode.id}}" class="hidden">
+                <h3 class="marg-b-sm">Your Rating for {{episode.name}}</h3>
+                <form id="addRatingsForm" action="/save-rating/{{episode.id}}" autocomplete="off" method="post">
+                    <div class="flex">
+                        <label for="rating">Rating</label>
+                        <select class="marg-l-sm Select select-width-1 block" name="rating">
+                            <option {% if episode.rating == '1' %} selected {% endif %} value="1">1</option>
+                            <option {% if episode.rating == '2' %} selected {% endif %}value="2">2</option>
+                            <option {% if episode.rating == '3' %} selected {% endif %}value="3">3</option>
+                            <option {% if episode.rating == '4' %} selected {% endif %}value="4">4</option>
+                            <option {% if episode.rating == '5' %} selected {% endif %}value="5">5</option>
+                        </select>
+                    </div>
+                    <div class="marg-t-md">
+                        <input required type="submit" class="Btn marg-l-sm" value="Save"></input>
+                    </div>
+                </form>
+            </div>
         </div>
         {% endfor %}
     {% else %}
@@ -26,4 +84,11 @@
     {% endif %}
     </div>
 </section>
+{% endblock %}
+{% block scripts %}
+    <script src="js/tingle.min.js"></script>
+    <script src="js/comment.js"></script>
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="css/tingle.min.css">
 {% endblock %}

@@ -2,36 +2,19 @@ var express = require('express');
 var router = express.Router();
 
 const users = require('../models/userModel');
+const episodes = require('../models/episodeModel');
 
 router.get('/favorites', function (req, res) {
-    let podcasts = [];
-    var promises = [];
-    users.getPodcasts(req.user.id).then(values => {
-        values.forEach((val, index) => {
-            let promise = users.getEpisodes(req.user.id, val.podcast_id).then(episodes => {
-                const podcast = {
-                    info: val, 
-                    episodes: episodes
-                };
-                if (episodes.length > 0) {
-                    podcasts.push(podcast);
-                }
-            });
-            promises.push(promise);
-         });
-         Promise.all(promises).then(() => {
-            res.render('favorites', {podcasts: podcasts});
+    episodes.getFavorites(req.user.id).then((episodes) => {
+            res.render('favorites', {episodes: episodes});
         });
-    });
 });
-
 
 router.post("/favorite-episode", function(req, res) {
     if(req.user) {
-        users.savePodcast(req.user.id, req.body.podcast_id, req.body.podcast_name);
-        users.getEpisode(req.user.id, req.body.name).then(result => {
+        episodes.getEpisode(req.user.id, req.body.name).then(result => {
             if(!(result.length > 0)) {
-                users.saveEpisode(req.user.id, req.body.name, req.body.link, req.body.description, req.body.podcast_id).then(result => {
+                episodes.saveEpisode(req.user.id, req.body.name, req.body.link, req.body.description, req.body.podcast_id, req.body.podcast_name).then(result => {
                     if(result) {
                         res.sendStatus(200);
                     } else {
@@ -39,13 +22,57 @@ router.post("/favorite-episode", function(req, res) {
                     }
                 });
             } else {
-                users.deleteEpisode(req.user.id, req.body.name).then(result => {
+                episodes.deleteEpisode(req.user.id, result.id).then(result => {
                     if(result) {
                         res.sendStatus(200);
                     } else {
                         res.sendStatus(400);
                     }
                 });
+            }
+        });
+    }
+});
+
+router.post("/add-comment/:id", function(req, res) {
+    if(req.user) {
+        episodes.addComment(req.body.comment, req.user.id, req.params.id).then(result => {
+            res.redirect('/favorites');
+        });
+    }
+});
+
+router.delete("/delete-comment/:id", function(req, res) {
+    if(req.user) {
+        episodes.deleteComment(req.user.id, req.params.id).then(result => {
+            res.redirect('/favorites');
+        });
+    }
+});
+
+router.post("/edit-comment/:id", function(req, res) {
+    if(req.user) {
+        episodes.editComment(req.body.comment, req.user.id, req.params.id).then(result => {
+            res.redirect('/favorites');
+        });
+    }
+});
+
+router.post("/save-rating/:id", function(req, res) {
+    if(req.user) {
+        episodes.saveRating(req.body.rating, req.user.id, req.params.id).then(result => {
+            res.redirect('/favorites');
+        });
+    }
+});
+
+router.get("/remove-favorite/:id", function(req, res) {
+    if(req.user) {
+        episodes.deleteEpisode(req.user.id, req.params.id).then(result => {
+            if(result) {
+                res.redirect('/favorites');
+            } else {
+                res.sendStatus(400);
             }
         });
     }

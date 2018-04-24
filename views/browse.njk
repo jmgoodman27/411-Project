@@ -1,9 +1,35 @@
 {% extends "./layouts/base.njk" %}
 
 {% block main %}
-<section>
+<section class="b-color-main">
     <div>
-        <h1>Browse Podcasts</h1>
+        <h1 class="color-white fs-xl">Browse Podcasts</h1>
     </div>
+    {# <div>
+        <p>Filter by genre:</p>
+        <form>
+            <select name="" id="">
+                <option selected value="All">All</option>
+                <option value="Comedy">All</option>
+                <option value="Sports">Sports</option>
+                <option value="Politics">Politics</option>
+            </select>
+        </form>
+    </div> #}
 </section>
+<section>
+    <div class="flex items-2">
+        {% for podcast in podcasts %}
+        <div class="flex Card nowrap align-center">
+            <div class="align-self-center">
+                <a href="/podcast/{{ podcast.collectionId }}"><img class="img-md" src="{{ podcast.artworkUrl100 }}" /></a>
+            </div>
+            <div>
+                <p><a class="bold" href="/podcast/{{ podcast.collectionId }}">{{ podcast.collectionName }}</a></p>
+                <p>Artist: {{ podcast.artistName }}</p>
+                <p>Genre: {{ podcast.primaryGenreName }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 {% endblock %}

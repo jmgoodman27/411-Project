@@ -2,7 +2,7 @@
 {% block main %}
 <section>
     <div class="pad-lr-md">
-        <h1 class="fs-lg marg-b-md">See What Friends are Listening To</h1>
+        <h1 class="fs-xl marg-b-md">See What Friends are Listening To</h1>
     </div>
     <div class="flex">
         <div class="flex align-center basis-6">
@@ -36,23 +36,42 @@
     </div>
     {% if result == true %}
     <div>
-        {% if podcasts.length > 0 %}
+        {% if episodes.length > 0 %}
             <p>Podcast episodes favorited by
                 <span class="bold">{{search_term}}</span>
                 <a href="/save-friend/{{user.id}}">(save as friend)</a>
             </p>
-            {% for podcast in podcasts %}
+            {% for episode in episodes %}
             <div class="Card">
-                <p>
-                    <a class="color-link bold" href="/podcast/{{ podcast.info.podcast_id }}">{{ podcast.info.podcast_name }}</a>
-                </p>
-                {% for episode in podcast.episodes %}
-                <p>
-                    {% if episode.link %} –
+                <p><a class="color-link bold" href="/podcast/{{ episode.podcast_id }}">{{ episode.podcast_name }}</a>: 
+                    {% if episode.link %}
                     <a class="color-link" href="{{episode.link}}">{{ episode.name }}</a>
-                    {% else %} – {{ episode.name }} {% endif %}
+                    {% else %}
+                    {{ episode.name }}
+                    {% endif %}
+                {% set isNull = false %}
+                {% if episode.comments | length > 0 %}
+                    {% if episode.comments | length == 1 %}
+                        {% if episode.comments[0].comment == null %}
+                            {% set isNull = true %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                {% if isNull == false %}
+                <span class="pad-l-sm underline"><a class="cursor" onclick="Comments({{episode.id}})">see comments</a></span>
+                {% endif %}
                 </p>
-                {% endfor %}
+                {% if episode.rating %}
+                    <p>Rating: {{episode.rating}} / 5</p>
+                {% endif %}
+            </div>
+            <div id="comments_content_{{episode.id}}" class="hidden">
+                <h4 class="marg-b-sm">{{search_term | capitalize }}'s Comments for {{episode.name}}</h4>
+                {% if isNull == false %}
+                    {% for comment in episode.comments %}
+                        <p>- {{comment.comment}}</p>
+                    {% endfor %}
+                {% endif %}
             </div>
             {% endfor %}
         {% else %}
@@ -67,4 +86,11 @@
     </div>
     {% endif %}
 </section>
+{% endblock %}
+{% block scripts %}
+    <script src="/js/tingle.min.js"></script>
+    <script src="/js/comment.js"></script>
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="/css/tingle.min.css">
 {% endblock %}

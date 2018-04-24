@@ -1,15 +1,15 @@
 {% extends "./layouts/base.njk" %}
 
 {% block main %}
-<section>
+<section class="b-color-main">
     <div>
-        <h1 class="fs-xl center marg-b-md">Discover and Share Podcasts</h1>
+        <h1 class="fs-xl center marg-b-sm color-white">Discover and Share Podcasts</h1>
         <form id="search_podcast_form" action="/search" autocomplete="off" method="post">
-            <div>
+            <div class="HomeSearch">
                 <input type="text" id="username" placeholder="Search for podcast" name="terms" value="{{ search_term }}" />
             </div>
             <div class="center marg-t-sm">
-                <input type="submit" class="Btn" value="Search"></input>
+                <input type="submit" class="bold BtnWhite" value="Search"></input>
             </div>
         </form>
     </div>
