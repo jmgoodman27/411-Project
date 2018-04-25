@@ -31,8 +31,7 @@ exports.up = function(knex, Promise) {
 exports.down = function(knex, Promise) {
     return Promise.all([
         knex.schema.raw('DROP TABLE user_user CASCADE')
-            .raw('DROP TABLE episode CASCADE')
-            .dropTable('comment')
+            .raw('DROP TABLE user_episode CASCADE')
             .dropTable('user')
     ])
 };
