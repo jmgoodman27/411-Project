@@ -4,14 +4,35 @@
 <section class="b-color-main">
     <div>
         <h1 class="fs-xl center marg-b-sm color-white">Discover and Share Podcasts</h1>
+        <div class="center">
+            <img src="/img/microphone.png" class="img-sm" />
+        </div>
         <form id="search_podcast_form" action="/search" autocomplete="off" method="post">
-            <div class="HomeSearch">
-                <input type="text" id="username" placeholder="Search for podcast" name="terms" value="{{ search_term }}" />
-            </div>
-            <div class="center marg-t-sm">
-                <input type="submit" class="bold BtnWhite" value="Search"></input>
+            <div class="flex align-center nowrap">
+                <div class="HomeSearch">
+                    <input type="text" id="username" placeholder="Search for podcast" name="terms" value="{{ search_term }}" />
+                </div>
+                <div>
+                    <input type="submit" class="bold BtnWhite" value="Search"></input>
+                </div>
             </div>
         </form>
+    </div>
+</section>
+<section class="marg-tb-md">
+    <div class="flex items-2 center">
+        <div class="marg-b-md">
+            <h2 class="fs-lg pad-b-sm">Browse by Genre</h2>
+            <a class="Btn" href="/browse">See Genres</a>
+        </div>
+        <div>
+            <h2 class="fs-lg pad-b-sm">See What Friend's are Listening to</h2>
+            {% if user %}
+                <a class="Btn" href="/friends">Go</a>
+            {% else %}
+                <a class="Btn" href="/login">Log in</a>
+            {% endif %}
+        </div>
     </div>
 </section>
 {% endblock %}

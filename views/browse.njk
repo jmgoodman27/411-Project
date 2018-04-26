@@ -5,17 +5,42 @@
     <div>
         <h1 class="color-white fs-xl">Browse Podcasts</h1>
     </div>
-    {# <div>
-        <p>Filter by genre:</p>
-        <form>
-            <select name="" id="">
-                <option selected value="All">All</option>
-                <option value="Comedy">All</option>
-                <option value="Sports">Sports</option>
-                <option value="Politics">Politics</option>
-            </select>
+    <div class="align-center marg-t-sm">
+        <form id="browse_genre_form" action="/browse" autocomplete="off" method="post">
+            <div>
+                <label class="color-white">Filter by Genre: </label>
+                <select name="genre" onchange="this.form.submit()">
+                    <option {% if genre == "" %}selected{% endif %} value="">All</option>
+                    <option {% if genre == "1301" %}selected{% endif %} value="1301">Arts</option>
+                    <option {% if genre == "1303" %}selected{% endif %} value="1303">Comedy</option>
+                    <option {% if genre == "1304" %}selected{% endif %}value="1304">Education</option>
+                    <option {% if genre == "1305" %}selected{% endif %} value="1305">Kids & Family</option>
+                    <option {% if genre == "1307" %}selected{% endif %} value="1307">Health</option>
+                    <option {% if genre == "1309" %}selected{% endif %} value="1309">TV & Film</option>
+                    <option {% if genre == "1310" %}selected{% endif %} value="1310">Music</option>
+                    <option {% if genre == "1311" %}selected{% endif %} value="1311">News & Politics</option>
+                    <option {% if genre == "1314" %}selected{% endif %} value="1314">Religion & Spirituality</option>
+                    <option {% if genre == "1315" %}selected{% endif %} value="1315">Science & Medicine</option>
+                    <option {% if genre == "1316" %}selected{% endif %} value="1316">Sports & Recreation</option>
+                    <option {% if genre == "1318" %}selected{% endif %} value="1318">Technology</option>
+                    <option {% if genre == "1321" %}selected{% endif %} value="1321">Business</option>
+                    <option {% if genre == "1323" %}selected{% endif %} value="1323">Games & Hobbies</option>
+                    <option {% if genre == "1324" %}selected{% endif %} value="1324">Society & Culture</option>
+                    <option {% if genre == "1325" %}selected{% endif %} value="1325">Government & Organizations</option>
+                </select>
+            </div>
+            <div class="marg-t-sm">
+                <label class="marg-t-sm color-white">Number of Results: </label>
+                <select name="results" onchange="this.form.submit()">
+                    <option {% if results == "150" %}selected{% endif %} value="150">150</option>
+                    <option {% if results == "100" %}selected{% endif %} value="100">100</option>
+                    <option {% if results == "50" %}selected{% endif %} value="50">50</option>
+                    <option {% if results == "20" %}selected{% endif %} value="20">20</option>
+                </select>
+            </div>
+            <input type="submit" class="hidden" value="Submit"></input>
         </form>
-    </div> #}
+    </div>
 </section>
 <section>
     <div class="flex items-2">
@@ -27,7 +52,6 @@
             <div>
                 <p><a class="bold" href="/podcast/{{ podcast.collectionId }}">{{ podcast.collectionName }}</a></p>
                 <p>Artist: {{ podcast.artistName }}</p>
-                <p>Genre: {{ podcast.primaryGenreName }}</p>
             </div>
         </div>
         {% endfor %}

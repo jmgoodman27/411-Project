@@ -70,7 +70,24 @@ router.get("/browse", function(req, res) {
             // console.log("statusCode:", response && response.statusCode);
             // console.log("body:", JSON.parse(body));
             res.render("browse", {
-                podcasts: JSON.parse(body).results
+                podcasts: JSON.parse(body).results,
+                results: 100
+            });
+        }
+    );
+});
+
+router.post("/browse", function(req, res) {
+    request(
+        "https://itunes.apple.com/search?term=podcast&genreId="+req.body.genre+"&limit="+req.body.results,
+        function(error, response, body) {
+            // console.log("error:", error);
+            // console.log("statusCode:", response && response.statusCode);
+            // console.log("body:", JSON.parse(body));
+            res.render("browse", {
+                podcasts: JSON.parse(body).results,
+                genre: req.body.genre,
+                results: req.body.results
             });
         }
     );
